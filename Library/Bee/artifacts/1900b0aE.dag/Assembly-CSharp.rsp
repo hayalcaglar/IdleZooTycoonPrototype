@@ -435,7 +435,9 @@
 -analyzer:"C:/Program Files/Unity/Hub/Editor/6000.0.25f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll"
 "Assets/TutorialInfo/Scripts/Readme.cs"
 "Assets/_GameAssets/Scripts/Animal.cs"
+"Assets/_GameAssets/Scripts/AnimalInteraction.cs"
 "Assets/_GameAssets/Scripts/MoneyManager.cs"
+"Assets/_GameAssets/Scripts/PlayerMovement.cs"
 -langversion:9.0
 /deterministic
 /optimize+

@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Animal : MonoBehaviour
 {
+    public int level = 1;            // Hayvanın seviyesi
+    public int upgradeCost = 50;     // İlk upgrade maliyeti
+
     public string animalName = "Cow"; // Hayvanın ismi
     public int moneyPerClick = 10;     // Hayvana tıklayınca kazanılan para
 
@@ -36,4 +39,25 @@ public class Animal : MonoBehaviour
         }
         transform.position = startPosition;
     }
+
+    public void Upgrade()
+{
+    if (MoneyManager.Instance.currentMoney >= upgradeCost)
+    {
+        MoneyManager.Instance.currentMoney -= upgradeCost;
+
+        level++;
+        moneyPerClick = Mathf.RoundToInt(moneyPerClick * 1.1f); // %10 artış
+        upgradeCost = Mathf.RoundToInt(upgradeCost * 1.5f);      // Maliyet 1.5x artıyor
+
+        MoneyManager.Instance.UpdateMoneyUI();
+
+        Debug.Log(animalName + " upgrade oldu! Yeni level: " + level + ", Yeni gelir: " + moneyPerClick + ", Yeni upgrade maliyeti: " + upgradeCost);
+    }
+    else
+    {
+        Debug.Log("Yeterli paran yok! Upgrade yapılamıyor.");
+    }
+}
+
 }
