@@ -437,6 +437,7 @@
 "Assets/_GameAssets/Scripts/Animal.cs"
 "Assets/_GameAssets/Scripts/AnimalInteraction.cs"
 "Assets/_GameAssets/Scripts/FollowCamera.cs"
+"Assets/_GameAssets/Scripts/GameManager.cs"
 "Assets/_GameAssets/Scripts/LockedHabitat.cs"
 "Assets/_GameAssets/Scripts/MoneyManager.cs"
 "Assets/_GameAssets/Scripts/PlayerMovement.cs"

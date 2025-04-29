@@ -1,18 +1,23 @@
 using UnityEngine;
-using System.Collections;
 using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 
 public class QuestManager : MonoBehaviour
 {
-    public static QuestManager Instance { get; private set; }
+    public static QuestManager Instance;
 
     public TextMeshProUGUI questText;
-    public GameObject interactionTextObject; // 🔥 InteractionText objesi
-    public int upgradeGoal = 3;
-    public int currentUpgradeCount = 0;
-    public int rewardAmount = 200;
+    public GameObject interactionTextObject;
 
-    private bool questCompleted = false;
+    private int upgradeGoal = 3;
+    private int currentUpgradeCount = 0;
+    private HashSet<Animal> upgradedAnimals = new HashSet<Animal>(); 
+    private int unlockedAreaCount = 0;
+    private int requiredUnlockedAreas = 1;
+
+    private bool quest1Completed = false;
+    private bool quest2Completed = false;
 
     private void Awake()
     {
@@ -21,56 +26,111 @@ public class QuestManager : MonoBehaviour
 
     private void Start()
     {
-        if (questText != null)
-        {
-            questText.gameObject.SetActive(true);
-            UpdateQuestUI();
-            StartCoroutine(HideQuestTextAfterDelay());
-        }
+        questText.gameObject.SetActive(true);
+        questText.text = "Görev: 3 farklı hayvanı upgrade et (0/3)";
+        StartCoroutine(HideQuestText());
     }
 
-    private IEnumerator HideQuestTextAfterDelay()
+    public void OnAnimalUpgraded(Animal animal)
+    {
+        if (!upgradedAnimals.Contains(animal))
+        {
+            upgradedAnimals.Add(animal);
+            currentUpgradeCount++;
+
+            questText.text = $"Görev: 3 farklı hayvanı upgrade et ({currentUpgradeCount}/3)";
+
+            if (currentUpgradeCount >= 3)
+            {
+                CompleteQuest();
+            }
+        }
+        else
+        {
+            Debug.Log("Bu hayvan zaten görev için sayıldı, tekrar eklenmedi.");
+        }
+    }
+    private void CompleteQuest()
+{
+    questText.gameObject.SetActive(true); // ✅ Yazı kesinlikle görünür olsun
+    questText.text = "🎉 Görev tamamlandı! +300 para";
+    MoneyManager.Instance.AddMoney(300);
+    StartCoroutine(HideQuestTextAfterDelay(3f)); // ✅ 3 saniye sonra yazıyı gizle
+    Invoke(nameof(StartNextQuest), 3f); // ✅ 3 saniye sonra yeni görevi başlat
+}
+
+
+    private IEnumerator HideQuestText()
     {
         yield return new WaitForSeconds(3f);
-
-        if (questText != null)
-            questText.gameObject.SetActive(false);
-
-        // 🔥 Görev yazısı kapanınca interaction yazısını eski haline getiriyoruz
-        if (interactionTextObject != null)
-            interactionTextObject.SetActive(true);
+        questText.gameObject.SetActive(false);
     }
 
     public void RegisterUpgrade()
     {
-        if (questCompleted) return;
+        if (quest1Completed) return;
 
         currentUpgradeCount++;
 
         if (currentUpgradeCount >= upgradeGoal)
         {
-            questCompleted = true;
-            MoneyManager.Instance.AddMoney(rewardAmount);
-
-            if (interactionTextObject != null)
-                interactionTextObject.SetActive(false); // 🔥 Görev tamamlanınca interaction yazısını kapatıyoruz
-
+            quest1Completed = true;
+            MoneyManager.Instance.AddMoney(200);
             questText.gameObject.SetActive(true);
-            questText.text = $"🎉 Görev Tamamlandı! +{rewardAmount} para";
+            questText.text = $"🎉 Görev tamamlandı! +200 para";
 
-            StartCoroutine(HideQuestTextAfterDelay());
+            StartCoroutine(HideQuestText());
 
-            Debug.Log("Görev tamamlandı! Ödül verildi.");
+            // ✅ Yeni görevi başlat
+            Invoke(nameof(StartNextQuest), 3f);
         }
         else
         {
-            UpdateQuestUI();
+            questText.gameObject.SetActive(true);
+            questText.text = $"Görev: {upgradeGoal} hayvanı upgrade et ({currentUpgradeCount}/{upgradeGoal})";
+            StartCoroutine(HideQuestText());
         }
     }
 
-    private void UpdateQuestUI()
+private void StartNextQuest()
+{
+    StopAllCoroutines(); // 🛑 Önceki coroutine’leri durdur
+
+    if (questText != null)
     {
-        if (questText != null)
-            questText.text = $"Görev: {upgradeGoal} hayvanı upgrade et ({currentUpgradeCount}/{upgradeGoal})";
+        questText.gameObject.SetActive(true);
+        questText.text = "GÖREV 2: 1 habitat alanı aç (0/1)";
+        StartCoroutine(HideQuestTextAfterDelay(5f));
+    }
+}
+
+
+private IEnumerator HideQuestTextAfterDelay(float delay)
+{
+    yield return new WaitForSeconds(delay);
+    questText.gameObject.SetActive(false);
+}
+
+    public void RegisterHabitatUnlock()
+    {
+        if (quest2Completed || !quest1Completed) return;
+
+        unlockedAreaCount++;
+
+        if (unlockedAreaCount >= requiredUnlockedAreas)
+        {
+            quest2Completed = true;
+            MoneyManager.Instance.AddMoney(300);
+            questText.gameObject.SetActive(true);
+            questText.text = $"🎉 Görev tamamlandı! +300 para";
+
+            StartCoroutine(HideQuestText());
+        }
+        else
+        {
+            questText.gameObject.SetActive(true);
+            questText.text = $"Görev: {requiredUnlockedAreas} habitat alanı aç ({unlockedAreaCount}/{requiredUnlockedAreas})";
+            StartCoroutine(HideQuestText());
+        }
     }
 }

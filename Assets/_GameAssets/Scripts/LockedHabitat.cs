@@ -24,7 +24,7 @@ public class LockedHabitat : MonoBehaviour
 {
     float distance = Vector3.Distance(transform.position, playerTransform.position);
     Debug.Log("Update çalışıyor.");
-    Debug.Log("Distance to player: " + distance);
+    // Debug.Log("Distance to player: " + distance);
 
     if (interactionText == null)
         Debug.LogWarning("interactionText bağlı değil!");
@@ -57,26 +57,21 @@ public class LockedHabitat : MonoBehaviour
     }
 }
 
-    private void TryUnlock()
+   private void TryUnlock()
+{
+    if (MoneyManager.Instance.CurrentMoney >= unlockCost)
     {
-        Debug.Log("TryUnlock çağrıldı");
-        if (MoneyManager.Instance.CurrentMoney >= unlockCost)
-        {
-             Debug.Log("YETERLİ PARA VAR, ALAN AÇILIYOR");
-            MoneyManager.Instance.SpendMoney(unlockCost);
-            interactionText.gameObject.SetActive(false);
-            if (areaToActivate != null)
-                areaToActivate.SetActive(true);
-                Debug.Log("Yeni alan aktif edildi."); 
-            
-            Destroy(gameObject); // Bu cube silinir (kilitli alan açılmış olur)
-           Debug.Log("Kilitli alan objesi silindi.");
-        }
-        else
-        {
-            Debug.Log("YETERLİ PARA YOK!"); 
-            interactionText.text = "Not enough money to unlock!";
-            Debug.Log("Yetersiz para!");
-        }
+        MoneyManager.Instance.SpendMoney(unlockCost);
+        areaToActivate.SetActive(true);
+        gameObject.SetActive(false);
+        interactionText.gameObject.SetActive(false);
+
+        QuestManager.Instance.RegisterHabitatUnlock(); // ✅ Görev bildir
     }
+    else
+    {
+        interactionText.text = "Yeterli paran yok!";
+    }
+}
+
 }
