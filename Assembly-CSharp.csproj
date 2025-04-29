@@ -65,9 +65,11 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.25f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_GameAssets\Scripts\FollowCamera.cs" />
     <Compile Include="Assets\_GameAssets\Scripts\MoneyManager.cs" />
     <Compile Include="Assets\_GameAssets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\_GameAssets\Scripts\Animal.cs" />
+    <Compile Include="Assets\_GameAssets\Scripts\LockedHabitat.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\_GameAssets\Scripts\AnimalInteraction.cs" />
   </ItemGroup>

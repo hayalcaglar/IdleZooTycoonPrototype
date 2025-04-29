@@ -6,7 +6,8 @@ public class MoneyManager : MonoBehaviour
 {
     public static MoneyManager Instance { get; private set; }
 
-    public int currentMoney = 0;
+    private int money; // SADECE BUNU KULLANACAĞIZ
+
     public TextMeshProUGUI moneyText;
 
     [Header("Idle Income Settings")]
@@ -25,6 +26,12 @@ public class MoneyManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        AddMoney(500); // Başlangıç için test parası (istersen silebilirsin)
+        UpdateMoneyUI();
+    }
+
     private void Update()
     {
         HandleIdleIncome();
@@ -32,15 +39,24 @@ public class MoneyManager : MonoBehaviour
 
     public void AddMoney(int amount)
     {
-        currentMoney += amount;
+        money += amount;
         UpdateMoneyUI();
     }
 
-    public void UpdateMoneyUI()
+    public int CurrentMoney => money; // ARTIK sadece money döndürüyor
+
+    public void SpendMoney(int amount)
+    {
+        money -= amount;
+        if (money < 0) money = 0;
+        UpdateMoneyUI();
+    }
+
+    private void UpdateMoneyUI()
     {
         if (moneyText != null)
         {
-            moneyText.text = "Money: " + currentMoney.ToString();
+            moneyText.text = "Money: " + money.ToString();
         }
     }
 
@@ -61,13 +77,11 @@ public class MoneyManager : MonoBehaviour
         int totalIncome = 0;
         Animal[] animals = FindObjectsByType<Animal>(FindObjectsSortMode.None);
 
-
         foreach (Animal animal in animals)
         {
             totalIncome += animal.moneyPerClick;
         }
 
-       return Mathf.RoundToInt(totalIncome * 0.2f); // %20'si kadar idle gelir
-
+        return Mathf.RoundToInt(totalIncome * 0.2f); // %20'si kadar idle gelir
     }
 }

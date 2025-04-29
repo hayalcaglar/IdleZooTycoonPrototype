@@ -41,23 +41,20 @@ public class Animal : MonoBehaviour
     }
 
     public void Upgrade()
-{
-    if (MoneyManager.Instance.currentMoney >= upgradeCost)
     {
-        MoneyManager.Instance.currentMoney -= upgradeCost;
+        if (MoneyManager.Instance.CurrentMoney >= upgradeCost)
+        {
+            MoneyManager.Instance.SpendMoney(upgradeCost); // ✅ Doğru kullanım: SpendMoney ile eksilt
 
-        level++;
-        moneyPerClick = Mathf.RoundToInt(moneyPerClick * 1.1f); // %10 artış
-        upgradeCost = Mathf.RoundToInt(upgradeCost * 1.5f);      // Maliyet 1.5x artıyor
+            level++;
+            moneyPerClick = Mathf.RoundToInt(moneyPerClick * 1.1f); // %10 artış
+            upgradeCost = Mathf.RoundToInt(upgradeCost * 1.5f);      // Maliyet 1.5x artıyor
 
-        MoneyManager.Instance.UpdateMoneyUI();
-
-        Debug.Log(animalName + " upgrade oldu! Yeni level: " + level + ", Yeni gelir: " + moneyPerClick + ", Yeni upgrade maliyeti: " + upgradeCost);
+            Debug.Log(animalName + " upgrade oldu! Yeni level: " + level + ", Yeni gelir: " + moneyPerClick + ", Yeni upgrade maliyeti: " + upgradeCost);
+        }
+        else
+        {
+            Debug.Log("Yeterli paran yok! Upgrade yapılamıyor.");
+        }
     }
-    else
-    {
-        Debug.Log("Yeterli paran yok! Upgrade yapılamıyor.");
-    }
-}
-
 }
