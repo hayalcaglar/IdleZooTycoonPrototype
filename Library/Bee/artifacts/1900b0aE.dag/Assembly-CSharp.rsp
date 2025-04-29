@@ -440,6 +440,7 @@
 "Assets/_GameAssets/Scripts/LockedHabitat.cs"
 "Assets/_GameAssets/Scripts/MoneyManager.cs"
 "Assets/_GameAssets/Scripts/PlayerMovement.cs"
+"Assets/_GameAssets/Scripts/QuestManager.cs"
 -langversion:9.0
 /deterministic
 /optimize+

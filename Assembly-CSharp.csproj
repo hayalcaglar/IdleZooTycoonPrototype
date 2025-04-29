@@ -70,6 +70,7 @@
     <Compile Include="Assets\_GameAssets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\_GameAssets\Scripts\Animal.cs" />
     <Compile Include="Assets\_GameAssets\Scripts\LockedHabitat.cs" />
+    <Compile Include="Assets\_GameAssets\Scripts\QuestManager.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\_GameAssets\Scripts\AnimalInteraction.cs" />
   </ItemGroup>

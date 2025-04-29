@@ -51,10 +51,13 @@ public class Animal : MonoBehaviour
             upgradeCost = Mathf.RoundToInt(upgradeCost * 1.5f);      // Maliyet 1.5x artıyor
 
             Debug.Log(animalName + " upgrade oldu! Yeni level: " + level + ", Yeni gelir: " + moneyPerClick + ", Yeni upgrade maliyeti: " + upgradeCost);
+            QuestManager.Instance.RegisterUpgrade(); // Görev yöneticisine upgrade kaydı yapıyoruz
         }
         else
         {
             Debug.Log("Yeterli paran yok! Upgrade yapılamıyor.");
         }
+        QuestManager.Instance.RegisterUpgrade();
+        // Görev yöneticisine upgrade kaydı yapıyoruz
     }
 }
