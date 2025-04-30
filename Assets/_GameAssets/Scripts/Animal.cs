@@ -52,9 +52,8 @@ private IEnumerator JumpEffect()
     isJumping = false;
 }
 
-   public void Upgrade()
+  public void Upgrade()
 {
-    
     if (MoneyManager.Instance.CurrentMoney >= upgradeCost)
     {
         MoneyManager.Instance.SpendMoney(upgradeCost);
@@ -65,15 +64,18 @@ private IEnumerator JumpEffect()
 
         Debug.Log(animalName + " upgrade oldu! Yeni level: " + level);
 
-        // 🔥 DOĞRUDAN Singleton erişimi kullan
+        // 🔥 Görev ilerletme
         QuestManager.Instance.OnAnimalUpgraded(this);
-        
+
+        // 🔥 Barı güncelle (sadece başarılı upgrade sonrası)
+        GameManager.Instance.UpdateUpgradeProgress(level);
     }
     else
     {
         Debug.Log("Yeterli paran yok!");
     }
 }
+
 
 
 }
