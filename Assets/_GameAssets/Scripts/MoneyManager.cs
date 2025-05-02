@@ -7,8 +7,11 @@ public class MoneyManager : MonoBehaviour
     public static MoneyManager Instance { get; private set; }
 
     private int money; // SADECE BUNU KULLANACAĞIZ
-
+    
     public TextMeshProUGUI moneyText;
+    private float autoSaveInterval = 30f;
+private float autoSaveTimer = 0f;
+
 
     [Header("Idle Income Settings")]
     public float idleInterval = 10f; // Kaç saniyede bir idle para eklenecek
@@ -28,20 +31,47 @@ public class MoneyManager : MonoBehaviour
 
     private void Start()
     {
-        AddMoney(500); // Başlangıç için test parası (istersen silebilirsin)
-        UpdateMoneyUI();
+         money = PlayerPrefs.GetInt("Money", 0);
+         UpdateMoneyUI();
     }
+    private void OnApplicationQuit()
+{
+   PlayerPrefs.SetInt("Money", money);
+}
 
     private void Update()
     {
         HandleIdleIncome();
+        HandleAutoSave();
     }
 
-    public void AddMoney(int amount)
+    private void HandleAutoSave()
+{
+    autoSaveTimer += Time.deltaTime;
+    if (autoSaveTimer >= autoSaveInterval)
     {
-        money += amount;
-        UpdateMoneyUI();
+        SaveData();
+        autoSaveTimer = 0f;
     }
+}
+public void SaveData()
+{
+    // Parayı kaydet
+    PlayerPrefs.SetInt("Money", money);
+
+    // Görevleri kaydet
+    QuestManager.Instance.SaveData();
+
+    // Hayvan seviyelerini kaydet
+    Animal[] animals = FindObjectsByType<Animal>(FindObjectsSortMode.None);
+    foreach (var animal in animals)
+    {
+        animal.SaveData();
+    }
+
+    Debug.Log("💾 Auto-save tamamlandı!");
+}
+
 
     public int CurrentMoney => money; // ARTIK sadece money döndürüyor
 
@@ -52,13 +82,22 @@ public class MoneyManager : MonoBehaviour
         UpdateMoneyUI();
     }
 
-    private void UpdateMoneyUI()
+    public void UpdateMoneyUI()
     {
         if (moneyText != null)
         {
             moneyText.text = "Money: " + money.ToString();
         }
     }
+public void AddMoney(int amount)
+{
+    if (GameManager.Instance != null && GameManager.Instance.isBoostActive)
+        amount *= 2;
+
+    money += amount;
+    UpdateMoneyUI();
+}
+
 
     private void HandleIdleIncome()
     {
