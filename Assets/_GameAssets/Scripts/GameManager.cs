@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public bool isBoostActive = false;
     public float boostDuration = 30f;
     private float boostTimer = 0f;
+    public GameObject shopPanel;
 
 
 
@@ -152,6 +153,67 @@ public void ResetGame()
 
     // İstersen Unity sahnesini yeniden yükle:
     UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+}
+
+
+
+public void OpenShop()
+{
+    shopPanel.SetActive(true);
+}
+
+public void CloseShop()
+{
+    shopPanel.SetActive(false);
+}
+
+public void BuyAnimal()
+{
+    int cost = 500;
+    if (MoneyManager.Instance.CurrentMoney >= cost)
+    {
+        MoneyManager.Instance.SpendMoney(cost);
+        Debug.Log("🐾 Yeni hayvan satın alındı!");
+
+        // Buraya hayvan spawn veya açma kodunu ekleyeceğiz
+    }
+    else
+    {
+        ShowInfoText("Yeterli paran yok!", 2f);
+    }
+}
+
+public void BuyNewAnimal()
+{
+    int cost = 500;
+    if (MoneyManager.Instance.CurrentMoney >= cost)
+    {
+        MoneyManager.Instance.SpendMoney(cost);
+        ShowInfoText("🐾 Yeni hayvan satın alındı!", 2f);
+        Debug.Log("Yeni hayvan satın alındı!");
+        // Buraya prefab instantiate kodu eklenecek (istersen sonra)
+    }
+    else
+    {
+        GameManager.Instance.ShowInfoText("Yeterli paran yok!", 2f);
+    }
+}
+
+public void BuyDecoration()
+{
+    int cost = 300;
+    if (MoneyManager.Instance.CurrentMoney >= cost)
+    {
+        MoneyManager.Instance.SpendMoney(cost);
+         ShowInfoText("🎨 Dekorasyon satın alındı!", 2f);
+        Debug.Log("🎨 Dekorasyon satın alındı!");
+
+        // Buraya dekor ekleme kodunu ekleyeceğiz
+    }
+    else
+    {
+        ShowInfoText("Yeterli paran yok!", 2f);
+    }
 }
 
 
