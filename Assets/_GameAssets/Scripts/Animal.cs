@@ -98,10 +98,23 @@ public class Animal : MonoBehaviour
             Debug.Log("Yeterli paran yok!");
         }
     }
-        public void SaveData()
-{
-         PlayerPrefs.SetInt(animalName + "_Level", level);
-}
+
+    public void SaveData()
+    {
+        PlayerPrefs.SetInt(animalName + "_Level", level);
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is Animal other)
+            return animalName == other.animalName;
+        return false;
+    }
+
+    public override int GetHashCode()
+    {
+        return animalName.GetHashCode();
+    }
 
     private void PlayClickEffect()
     {
@@ -114,7 +127,4 @@ public class Animal : MonoBehaviour
         AudioClip clip = Resources.Load<AudioClip>("ClickSound");
         GetComponent<AudioSource>().PlayOneShot(clip);
     }
-
-
-
 }

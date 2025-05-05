@@ -33,13 +33,7 @@ public class QuestManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetInt("UpgradeCount", currentUpgradeCount);
-        PlayerPrefs.SetInt("UnlockedAreaCount", unlockedAreaCount);
-        PlayerPrefs.SetInt("Quest1Completed", quest1Completed ? 1 : 0);
-        PlayerPrefs.SetInt("Quest2Completed", quest2Completed ? 1 : 0);
-        PlayerPrefs.SetInt("Quest3Started", quest3Started ? 1 : 0);
-        PlayerPrefs.SetInt("Quest3Completed", quest3Completed ? 1 : 0);
-        PlayerPrefs.SetInt("MoneyAtQuest3Start", moneyAtQuest3Start);
+        SaveData();
     }
 
     public void OnAnimalUpgraded(Animal animal)
@@ -53,6 +47,7 @@ public class QuestManager : MonoBehaviour
             if (currentUpgradeCount >= upgradeGoal)
             {
                 quest1Completed = true;
+                StartCoroutine(ShowCompletionMessage("🎉 Görev 1 tamamlandı! +300 para"));
                 MoneyManager.Instance.AddMoney(300);
                 Invoke(nameof(StartNextQuest), 3f);
             }
@@ -67,6 +62,7 @@ public class QuestManager : MonoBehaviour
         if (unlockedAreaCount >= requiredUnlockedAreas)
         {
             quest2Completed = true;
+            StartCoroutine(ShowCompletionMessage("🎉 Görev 2 tamamlandı! +300 para"));
             MoneyManager.Instance.AddMoney(300);
             Invoke(nameof(StartNextQuest), 3f);
         }
@@ -90,6 +86,7 @@ public class QuestManager : MonoBehaviour
             if (earned >= moneyGoal)
             {
                 quest3Completed = true;
+                StartCoroutine(ShowCompletionMessage("🎉 Görev 3 tamamlandı! +500 para"));
                 MoneyManager.Instance.AddMoney(500);
             }
             UpdateQuestUI();
@@ -111,16 +108,22 @@ public class QuestManager : MonoBehaviour
             questText.text = "🎉 Tüm görevler tamamlandı!";
     }
 
-public void SaveData()
-{
-    PlayerPrefs.SetInt("UpgradeCount", currentUpgradeCount);
-    PlayerPrefs.SetInt("UnlockedAreaCount", unlockedAreaCount);
-    PlayerPrefs.SetInt("Quest1Completed", quest1Completed ? 1 : 0);
-    PlayerPrefs.SetInt("Quest2Completed", quest2Completed ? 1 : 0);
-    PlayerPrefs.SetInt("Quest3Started", quest3Started ? 1 : 0);
-    PlayerPrefs.SetInt("Quest3Completed", quest3Completed ? 1 : 0);
-    PlayerPrefs.SetInt("MoneyAtQuest3Start", moneyAtQuest3Start);
-}
+    private IEnumerator ShowCompletionMessage(string message)
+    {
+        questText.text = message;
+        questText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(3f);
+        UpdateQuestUI();
+    }
 
-
+    public void SaveData()
+    {
+        PlayerPrefs.SetInt("UpgradeCount", currentUpgradeCount);
+        PlayerPrefs.SetInt("UnlockedAreaCount", unlockedAreaCount);
+        PlayerPrefs.SetInt("Quest1Completed", quest1Completed ? 1 : 0);
+        PlayerPrefs.SetInt("Quest2Completed", quest2Completed ? 1 : 0);
+        PlayerPrefs.SetInt("Quest3Started", quest3Started ? 1 : 0);
+        PlayerPrefs.SetInt("Quest3Completed", quest3Completed ? 1 : 0);
+        PlayerPrefs.SetInt("MoneyAtQuest3Start", moneyAtQuest3Start);
+    }
 }
