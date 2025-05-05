@@ -27,7 +27,7 @@ public class AnimalInteraction : MonoBehaviour
             {
                 isPlayerNearby = true;
                 interactionText.gameObject.SetActive(true);
-                Debug.Log(animalScript.animalName + " yaklaşıldı! E'ye basarak para toplayabilirsin.");
+                // Debug.Log(animalScript.animalName + " yaklaşıldı! E'ye basarak para toplayabilirsin.");
             }
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -42,7 +42,7 @@ public class AnimalInteraction : MonoBehaviour
             {
                 isPlayerNearby = false;
                 interactionText.gameObject.SetActive(false);
-                Debug.Log(animalScript.animalName + " uzaklaşıldı!");
+                // Debug.Log(animalScript.animalName + " uzaklaşıldı!");
             }
         }
     }
@@ -50,6 +50,6 @@ public class AnimalInteraction : MonoBehaviour
     private void CollectIncome()
     {
         MoneyManager.Instance.AddMoney(animalScript.moneyPerClick);
-        Debug.Log(animalScript.animalName + " üzerinden para toplandı: " + animalScript.moneyPerClick);
+        // Debug.Log(animalScript.animalName + " üzerinden para toplandı: " + animalScript.moneyPerClick);
     }
 }

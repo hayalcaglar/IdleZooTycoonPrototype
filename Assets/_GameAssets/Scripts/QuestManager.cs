@@ -47,8 +47,8 @@ public class QuestManager : MonoBehaviour
             if (currentUpgradeCount >= upgradeGoal)
             {
                 quest1Completed = true;
-                StartCoroutine(ShowCompletionMessage("🎉 Görev 1 tamamlandı! +300 para"));
-                MoneyManager.Instance.AddMoney(300);
+                StartCoroutine(ShowCompletionMessage("🎉 Görev 1 tamamlandı! +100 para"));
+                MoneyManager.Instance.AddMoney(100);
                 Invoke(nameof(StartNextQuest), 3f);
             }
         }
@@ -62,8 +62,8 @@ public class QuestManager : MonoBehaviour
         if (unlockedAreaCount >= requiredUnlockedAreas)
         {
             quest2Completed = true;
-            StartCoroutine(ShowCompletionMessage("🎉 Görev 2 tamamlandı! +300 para"));
-            MoneyManager.Instance.AddMoney(300);
+            StartCoroutine(ShowCompletionMessage("🎉 Görev 2 tamamlandı! +150 para"));
+            MoneyManager.Instance.AddMoney(150);
             Invoke(nameof(StartNextQuest), 3f);
         }
     }

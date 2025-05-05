@@ -32,10 +32,10 @@ public class LockedHabitat : MonoBehaviour
         float distance = Vector3.Distance(transform.position, playerTransform.position);
 
         if (interactionText == null)
-            Debug.LogWarning("interactionText bağlı değil!");
+           
 
         if (areaToActivate == null)
-            Debug.LogWarning("areaToActivate bağlı değil!");
+           
 
         if (distance <= interactionDistance)
         {
@@ -48,7 +48,7 @@ public class LockedHabitat : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("E tuşuna basıldı.");
+                
                 TryUnlock();
             }
         }

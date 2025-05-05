@@ -123,7 +123,7 @@ public Transform spawnPoint;    // Hayvan / dekor nereye gelecek
         {
             animal.SaveData();
         }
-        Debug.Log("💾 Tüm sistemler kaydedildi!");
+        
     }
 
     public void ResetGame()
@@ -159,22 +159,20 @@ public Transform spawnPoint;    // Hayvan / dekor nereye gelecek
 }
 
 
-public GameObject treeObject; // Inspector’dan atayacaksın
-
-public void BuyDecoration()
+   public void BuyDecoration()
 {
+    
     int cost = 300;
     if (MoneyManager.Instance.CurrentMoney >= cost)
     {
         MoneyManager.Instance.SpendMoney(cost);
         ShowInfoText("🎨 Dekorasyon satın alındı!", 2f);
-        treeObject.SetActive(true);  // prefab yerine sahnedeki objeyi açıyoruz
+        Instantiate(decorationPrefab, spawnPoint.position, Quaternion.identity);
     }
     else
     {
         ShowInfoText("Yeterli paran yok!", 2f);
     }
 }
-
 
 }

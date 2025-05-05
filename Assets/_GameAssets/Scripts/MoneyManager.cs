@@ -69,7 +69,7 @@ public void SaveData()
         animal.SaveData();
     }
 
-    Debug.Log("💾 Auto-save tamamlandı!");
+   
 }
 
 

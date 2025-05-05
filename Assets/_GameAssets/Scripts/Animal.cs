@@ -89,7 +89,7 @@ public class Animal : MonoBehaviour
             level++;
             moneyPerClick = Mathf.RoundToInt(10 * Mathf.Pow(1.1f, level - 1));
             upgradeCost = Mathf.RoundToInt(50 * Mathf.Pow(1.5f, level - 1));
-            Debug.Log(animalName + " upgrade oldu! Yeni level: " + level);
+            
             QuestManager.Instance.OnAnimalUpgraded(this);
             GameManager.Instance.UpdateUpgradeProgress(level);
         }
